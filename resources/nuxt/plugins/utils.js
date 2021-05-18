@@ -1,9 +1,5 @@
 import Vue from 'vue';
 
-// https://github.com/Akryum/v-tooltip
-import VTooltip from 'v-tooltip'
-Vue.use(VTooltip);
-
 // https://github.com/avil13/vue-sweetalert2
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';

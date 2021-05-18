@@ -1,14 +1,48 @@
-<!-- Clone from auth/index.vue -->
-
 <template><div>
-    <PageAuthIndex></PageAuthIndex>
+    <div class="row no-gutters">
+        <div class="col-3">
+            <div class="list-group">
+                <div class="list-group-item" :class="{'list-group-item-primary':m==midi}" v-for="m in midis" @click="midi=m">
+                    {{ m.title }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-9">
+            <midi-player :src="midi.src" v-if="midi"></midi-player>
+        </div>
+    </div>
+    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>
-import PageAuthIndex from './auth/index.vue';
-
 export default {
-    layout: 'auth',
-    components: { PageAuthIndex },
+    data() {
+        return {
+            midi: false,
+            midis: [
+                {
+                    title: "Bach - Boureé",
+                    src: "/assets/bach-bourree.mid",
+                },
+                {
+                    title: "Guns n Roses - Sweet Child o Mine",
+                    src: "/assets/guns-n-roses-sweet-child-o-mine.mid",
+                },
+                {
+                    title: "Raça Negra - Cheia de Manias",
+                    src: "/assets/raca-negra-cheia-de-manias.mid",
+                },
+                {
+                    title: "Tema Simpsons",
+                    src: "/assets/simpsons.mid",
+                },
+                {
+                    title: "Tema South Park",
+                    src: "/assets/south-park.mid",
+                },
+            ],
+        };
+    },
 };
 </script>
