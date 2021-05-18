@@ -430,15 +430,6 @@ export default {
                         {{ $auth.user.name }} &nbsp; <div class="c-avatar" :title="$auth.user.name"><img class="c-avatar-img" :src="$auth.user.meta.photo" :alt="$auth.user.name" v-if="$auth.user.meta"></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right pt-0" style="margin-top:10px;" ref="userOptions" :class="{show:toggle=='userOptions'}" @click="toggleSet(false)">
-                        <div class="dropdown-header bg-light py-2"><strong>Tevep</strong></div>
-                        <nuxt-link to="/tevep" class="dropdown-item">
-                            <div class="c-icon mfe-2"><i class="fas fa-search"></i></div>
-                            Meus projetos
-                        </nuxt-link>
-                        <nuxt-link to="/tevep/0" class="dropdown-item">
-                            <div class="c-icon mfe-2"><i class="fas fa-plus"></i></div>
-                            Criar novo
-                        </nuxt-link>
                         <div class="dropdown-header bg-light py-2"><strong>Conta</strong></div>
                         <nuxt-link to="/user/me/" class="dropdown-item">
                             <div class="c-icon mfe-2"><i class="fas fa-user"></i></div>

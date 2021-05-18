@@ -23,7 +23,6 @@
             <user-card :value="u" style="position:relative; height:100%;">
                 <template #actions>
                     <nuxt-link :to="`/user/${u.id}`" class="btn btn-light" v-tooltip.top-center="'Editar'"><i class="fas fa-edit"></i></nuxt-link>
-                    <nuxt-link :to="`/tevep/?user=${u.id}`" class="btn btn-light" v-tooltip.top-center="'Projetos'"><i class="fas fa-shopping-bag"></i></nuxt-link>
                 </template>
             </user-card>
         </div>
