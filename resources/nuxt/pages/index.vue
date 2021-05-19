@@ -8,8 +8,9 @@
             </div>
         </div>
 
-        <div class="col-9">
-            <midi-player :src="midi.src" v-if="midi"></midi-player>
+        <div class="col-9 p-3">
+            <!-- <midi-player :src="midi.src" v-if="midi"></midi-player> -->
+            <midi-playerb :src="midi.src"></midi-playerb>
         </div>
     </div>
     <pre>{{ $data }}</pre>
@@ -19,7 +20,7 @@
 export default {
     data() {
         return {
-            midi: false,
+            midi: {src:false, title:false},
             midis: [
                 {
                     title: "Bach - Boureé",

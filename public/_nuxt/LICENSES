@@ -15,6 +15,13 @@
  */
 
 /*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
  * Vue.js v2.6.12
  * (c) 2014-2020 Evan You
  * Released under the MIT License.
@@ -154,13 +161,6 @@ and limitations under the License.
  * @return {boolean} True if the event is supported.
  * @internal
  * @license Modernizr 3.0.0pre (Custom Build) | MIT
- */
-
-/**
- * Tone.js
- * @author Yotam Mann
- * @license http://opensource.org/licenses/MIT MIT License
- * @copyright 2014-2019 Yotam Mann
  */
 
 /**!
