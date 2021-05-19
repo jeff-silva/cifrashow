@@ -1,45 +1,69 @@
 <!-- http://grimmdude.com/MidiPlayerJS/docs/Track.html#disable -->
-<template><div class="border">
+<template><div>
 
-    <div class="row no-gutters">
-        <div class="col-6">
-            <div v-for="(t, tindex) in player.tracks">
-                <!-- <pre>events: {{ t.events }}</pre> -->
-                <!-- <pre>{{ Object.keys(t) }}</pre> -->
-                xx
+    <!-- Editor -->
+    <div v-if="props.edit">
+        <div style="position:relative; overflow-x:scroll;" @wheel.prevent="editor.zoomX += (($event.deltaY*-1)/10)">
+            <div class="midi-playerb-editor-pattern" :style="`position:relative; width:${editor.zoomX}%;`">
+                <!-- Cursor -->
+                <div :style="`position:absolute; left:${songPercent}%; top:0px; height:100%; border-left:solid 1px red;`"></div>
+
+                <div style="position:relative;">
+                    <div>&nbsp;</div>
+                    <span v-for="c in chords" :style="`position:absolute; top:0px; left:${c.percent}%;`">{{ c.chord }}</span>
+                </div>
+
+                <div style="position:relative;">
+                    <div>&nbsp;</div>
+                    <span v-for="c in lyrics" :style="`position:absolute; top:0px; left:${c.percent}%;`">{{ c.lyric }}</span>
+                </div>
+            </div>
+        </div>
+        <pre>nextChords: {{ nextChords }}</pre>
+        <pre>nextLyrics: {{ nextLyrics }}</pre>
+    </div>
+
+    <!-- Player -->
+    <div>
+        <div class="row no-gutters">
+            <div class="col-6">
+                <div v-for="(t, tindex) in player.tracks">
+                    <!-- <pre>events: {{ t.events }}</pre> -->
+                    <!-- <pre>{{ Object.keys(t) }}</pre> -->
+                    xx
+                </div>
+            </div>
+
+            <div class="col-6 bg-dark">
+                content
             </div>
         </div>
 
-        <div class="col-6 bg-dark">
-            content
+        <div class="d-flex align-items-center mt-3">
+            <div class="pr-1" v-if="!isPlaying">
+                <button type="button" class="btn btn-primary" @click="play()">
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+
+            <div class="pr-1"  v-if="isPlaying">
+                <button type="button" class="btn btn-primary" @click="pause()">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+
+            <div class="pr-1">
+                <button type="button" class="btn btn-primary" @click="stop()">
+                    <i class="fas fa-stop"></i>
+                </button>
+            </div>
+
+            <div class="flex-grow-1 pl-3">
+                <el-slider v-model="songPercent" @change="skipToPercent($event)"></el-slider>
+            </div>
         </div>
     </div>
 
-    <div class="d-flex align-items-center mt-3">
-        <div class="pr-1" v-if="!isPlaying">
-            <button type="button" class="btn btn-primary" @click="play()">
-                <i class="fas fa-play"></i>
-            </button>
-        </div>
-
-        <div class="pr-1"  v-if="isPlaying">
-            <button type="button" class="btn btn-primary" @click="pause()">
-                <i class="fas fa-pause"></i>
-            </button>
-        </div>
-
-        <div class="pr-1">
-            <button type="button" class="btn btn-primary" @click="stop()">
-                <i class="fas fa-stop"></i>
-            </button>
-        </div>
-
-        <div class="flex-grow-1 pl-3">
-            <el-slider v-model="songPercent" @change="skipToPercent($event)"></el-slider>
-        </div>
-    </div>
-
-    <pre>playerEvent: {{ playerEvent }}</pre>
     <!-- <pre>{{ Object.keys(player) }}</pre> -->
     <!-- <pre>{{ $data }}</pre> -->
 </div></template>
@@ -52,6 +76,7 @@ export default {
     props: {
         src: [Boolean, String],
         soundfont: {default:'marimba'}, // acoustic_grand_piano, marimba
+        edit: {default:false},
     },
 
     watch: {
@@ -70,25 +95,31 @@ export default {
             player: false,
             playerEvent: {},
             songPercent: 0,
+            nextChords: [],
+            nextLyrics: [],
+
+            editor: {
+                zoomX: 200,
+            },
 
             chords: [
                 {
-                    tick: 7319,
+                    percent: 15,
                     chord: "F#m",
                 },
                 {
-                    tick: 8087,
+                    percent: 20,
                     chord: "E",
                 },
             ],
 
             lyrics: [
                 {
-                    tick: 7353,
+                    percent: 16,
                     lyric: "Cheia de manias",
                 },
                 {
-                    tick: 8212,
+                    percent: 22,
                     lyric: "Toda dengosa",
                 },
             ],
@@ -116,6 +147,9 @@ export default {
                 if (ev.name == 'Note on') {
 					this.instrument.play(ev.noteName, AudioContext.currentTime, {gain:ev.velocity/100});
 				}
+
+                this.nextChords = this.chords.filter(item => item.percent>=this.songPercent);
+                this.nextLyrics = this.lyrics.filter(item => item.percent>=this.songPercent);
             });
 
             this.playerLoadMidi();
@@ -178,3 +212,12 @@ export default {
     },
 }
 </script>
+
+
+<style>
+.midi-playerb-editor-pattern {
+    min-height: 400px;
+    background-image: linear-gradient(90deg, transparent 50%, #eee 50%);
+    background-size: 5% 50%;
+}
+</style>
