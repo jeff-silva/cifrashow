@@ -2,42 +2,40 @@
 <template><div>
 
     <!-- Editor -->
-    <div v-if="props.edit">
-        <div style="position:relative; overflow-x:scroll;" @wheel.prevent="editor.zoomX += (($event.deltaY*-1)/10)">
-            <div class="midi-playerb-editor-pattern" :style="`position:relative; width:${editor.zoomX}%;`">
-                <!-- Cursor -->
+    <div v-if="props.edit" @wheel.prevent="editor.zoomX += (($event.deltaY*-1)/10)">
+        <midiplayer-svg v-model="props.value"
+            @input="emitValue()"
+            :zoom-x="editor.zoomX" :song-percent="songPercent"
+        ></midiplayer-svg>
+
+        <!-- <div style="position:relative; overflow-x:scroll;" @wheel.prevent="editor.zoomX += (($event.deltaY*-1)/10)">
+            <div class="midiplayer-editor-pattern" :style="`position:relative; width:${editor.zoomX}%;`">
                 <div :style="`position:absolute; left:${songPercent}%; top:0px; height:100%; border-left:solid 1px red;`"></div>
 
                 <div style="position:relative;">
                     <div>&nbsp;</div>
-                    <span v-for="c in chords" :style="`position:absolute; top:0px; left:${c.percent}%;`">{{ c.chord }}</span>
+                    <span v-for="c in props.value.chords" :style="`position:absolute; top:0px; left:${c.percent}%;`">{{ c.chord }}</span>
                 </div>
 
                 <div style="position:relative;">
                     <div>&nbsp;</div>
-                    <span v-for="c in lyrics" :style="`position:absolute; top:0px; left:${c.percent}%;`">{{ c.lyric }}</span>
+                    <span v-for="c in props.value.lyrics" :style="`position:absolute; top:0px; left:${c.percent}%;`">{{ c.lyric }}</span>
                 </div>
             </div>
-        </div>
-        <pre>nextChords: {{ nextChords }}</pre>
-        <pre>nextLyrics: {{ nextLyrics }}</pre>
+        </div> -->
     </div>
 
     <!-- Player -->
     <div>
-        <div class="row no-gutters">
+        <!-- <div class="row no-gutters">
             <div class="col-6">
-                <div v-for="(t, tindex) in player.tracks">
-                    <!-- <pre>events: {{ t.events }}</pre> -->
-                    <!-- <pre>{{ Object.keys(t) }}</pre> -->
-                    xx
-                </div>
+                instruments
             </div>
 
             <div class="col-6 bg-dark">
                 content
             </div>
-        </div>
+        </div> -->
 
         <div class="d-flex align-items-center mt-3">
             <div class="pr-1" v-if="!isPlaying">
@@ -65,7 +63,7 @@
     </div>
 
     <!-- <pre>{{ Object.keys(player) }}</pre> -->
-    <!-- <pre>{{ $data }}</pre> -->
+    <!-- <pre>props: {{ props }}</pre> -->
 </div></template>
 
 <script>
@@ -74,6 +72,7 @@ import Soundfont from 'soundfont-player';
 
 export default {
     props: {
+        value: {default:Object},
         src: [Boolean, String],
         soundfont: {default:'marimba'}, // acoustic_grand_piano, marimba
         edit: {default:false},
@@ -82,7 +81,7 @@ export default {
     watch: {
         $props: {deep:true, handler(value) {
             this.props = JSON.parse(JSON.stringify(value));
-            this.playerInit();
+            // this.playerInit();
         }},
     },
 
@@ -95,34 +94,10 @@ export default {
             player: false,
             playerEvent: {},
             songPercent: 0,
-            nextChords: [],
-            nextLyrics: [],
 
             editor: {
                 zoomX: 200,
             },
-
-            chords: [
-                {
-                    percent: 15,
-                    chord: "F#m",
-                },
-                {
-                    percent: 20,
-                    chord: "E",
-                },
-            ],
-
-            lyrics: [
-                {
-                    percent: 16,
-                    lyric: "Cheia de manias",
-                },
-                {
-                    percent: 22,
-                    lyric: "Toda dengosa",
-                },
-            ],
         };
     },
 
@@ -136,9 +111,23 @@ export default {
             if (! this.player) return false;
             return this.player.getSongTime();
         },
+
+        nextChords() {
+            // return this.chords.filter(item => item.percent>=this.songPercent);
+            return [];
+        },
+
+        nextLyrics() {
+            // return this.lyrics.filter(item => item.percent>=this.songPercent);
+            return [];
+        },
     },
 
     methods: {
+        emitValue() {
+            this.$emit('input', this.props.value);
+        },
+
         playerInit() {
             this.player = new MidiPlayer.Player(ev => {
                 this.playerEvent = ev;
@@ -147,9 +136,6 @@ export default {
                 if (ev.name == 'Note on') {
 					this.instrument.play(ev.noteName, AudioContext.currentTime, {gain:ev.velocity/100});
 				}
-
-                this.nextChords = this.chords.filter(item => item.percent>=this.songPercent);
-                this.nextLyrics = this.lyrics.filter(item => item.percent>=this.songPercent);
             });
 
             this.playerLoadMidi();
@@ -215,7 +201,7 @@ export default {
 
 
 <style>
-.midi-playerb-editor-pattern {
+.midiplayer-editor-pattern {
     min-height: 400px;
     background-image: linear-gradient(90deg, transparent 50%, #eee 50%);
     background-size: 5% 50%;
