@@ -24,9 +24,6 @@ class User extends Authenticatable implements JWTSubject
 		'email_verified_at',
 		'password',
 		'remember_token',
-		'whatsapp',
-		'meta',
-		'level',
 		'created_at',
 		'updated_at'
 	];
@@ -208,5 +205,9 @@ class User extends Authenticatable implements JWTSubject
 
 	public function userNotifications() {
 		return $this->hasMany(\App\Models\UserNotification::class, 'user_id', 'id');
+	}
+
+	public function chordsSongs() {
+		return $this->hasMany(\App\Models\ChordsSong::class, 'user_id', 'id');
 	}
 }

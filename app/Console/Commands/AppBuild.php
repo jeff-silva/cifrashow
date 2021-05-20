@@ -47,6 +47,16 @@ class AppBuild extends Command
         $commands = [];
 
         $commands[] = [
+            'title' => 'Migrate',
+            'command' => 'migrate',
+        ];
+
+        $commands[] = [
+            'title' => 'Seed',
+            'command' => 'db:seed',
+        ];
+
+        $commands[] = [
             'title' => 'Limpar caches',
             'command' => 'app:clear',
         ];

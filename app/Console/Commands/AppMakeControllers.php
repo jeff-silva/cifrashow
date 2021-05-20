@@ -60,29 +60,41 @@ class AppMakeControllers extends Command
                 $controller->file = app_path(implode(DIRECTORY_SEPARATOR, ['Http', 'Controllers', "{$controller->name}.php"]));
                 $controller->file_exists = !!realpath($controller->file);
 
+                if (! $controller->file_exists) {
+                    file_put_contents($controller->file, implode("\n", [
+                        '<?php',
+                        '',
+                        "namespace App\Http\Controllers;",
+                        '',
+                        "class {$controller->name} extends Controller",
+                        '{',
+                        '}',
+                    ]));
+                }
+
                 $methods = [];
 
                 $methods['getSearch'] = implode("\n", [
-                    "\tpublic function getSearch(Request \$request) {",
-                    "\t\treturn (new {$model->namespace})->search(\$request->all());",
+                    "\tpublic function getSearch() {",
+                    "\t\treturn {$controller->namespace}::querySearch();",
                     "\t}",
                 ]);
 
                 $methods['getFind'] = implode("\n", [
                     "\tpublic function getFind(\$id) {",
-                    "\t\treturn {$model->namespace}::find(\$id);",
+                    "\t\treturn {$controller->namespace}::find(\$id);",
                     "\t}",
                 ]);
 
                 $methods['postSave'] = implode("\n", [
-                    "\tpublic function postSave(Request \$request) {",
-                    "\t\treturn (new {$model->namespace})->store(\$request->all());",
+                    "\tpublic function postSave(\Request \$request) {",
+                    "\t\treturn {$controller->namespace}::store(\$request->all());",
                     "\t}",
                 ]);
 
                 $methods['postDelete'] = implode("\n", [
                     "\tpublic function postDelete(\$id) {",
-                    "\t\treturn {$model->namespace}::find(\$id)->remove();",
+                    "\t\treturn {$controller->namespace}::find(\$id)->remove();",
                     "\t}",
                 ]);
 

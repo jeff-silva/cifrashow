@@ -50,7 +50,22 @@ class AppMakeModels extends Command
             if (config("database-settings.models.{$table_name}")) {
 
                 if (! $model->file_exists) {
-                    // TODO: criar model básico
+                    file_put_contents($model->file, implode("\n", [
+                        '<?php',
+                        '',
+                        "namespace App\Models;",
+                        '',
+                        "class {$model->name} extends \Illuminate\Database\Eloquent\Model",
+                        '{',
+                        "\tuse \App\Traits\Model;",
+                        '',
+                        "\tprotected \$fillable = [\n\t\t'". implode("',\n\t\t'", array_keys($table['Fields'])) ."',\n\t];",
+                        '',
+                        "\tpublic function validate(\$data=[]) {",
+                        "\t\treturn \Validator::make(\$data, ['title' => ['required']]);",
+                        "\t}",
+                        '}',
+                    ]));
                 }
 
                 $content = file_get_contents($model->file);
