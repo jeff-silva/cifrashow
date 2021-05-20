@@ -1,4 +1,6 @@
 <template><div>
+    <nuxt-link to="/admin" class="btn btn-primary">Admin</nuxt-link>
+
     <div class="row no-gutters">
         <div class="col-3">
             <div class="list-group list-group-flush">

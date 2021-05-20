@@ -45,7 +45,7 @@ class AuthController extends Controller
 
         if ($user = \App\Models\User::where('email', $credentials['email'])->first()) {
             if (\Hash::check($credentials['password'], $user->password)) {
-                $ttl = \App\Models\Setting::getValue('jwt.ttl', 90);
+                $ttl = config('jwt.ttl', 90);
                 $token = auth()->setTTL($ttl)->login($user);
             }
         }

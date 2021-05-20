@@ -98,7 +98,7 @@ export default {
 			login: '/auth',
 			logout: '/auth',
 			// callback: '/dashboard',
-			home: '/dashboard',
+			home: '/admin',
 		},
 
 		strategies: {
