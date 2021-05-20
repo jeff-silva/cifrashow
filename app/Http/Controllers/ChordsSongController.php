@@ -6,18 +6,18 @@ class ChordsSongController extends Controller
 {
 
 	public function getSearch() {
-		return \App\Http\Controllers\ChordsSongController::querySearch();
+		return \App\Models\ChordsSong::querySearch();
 	}
 
 	public function getFind($id) {
-		return \App\Http\Controllers\ChordsSongController::find($id);
+		return \App\Models\ChordsSong::find($id);
 	}
 
-	public function postSave(\Request $request) {
-		return \App\Http\Controllers\ChordsSongController::store($request->all());
+	public function postSave() {
+		return (new \App\Models\ChordsSong)->store(request()->all());
 	}
 
 	public function postDelete($id) {
-		return \App\Http\Controllers\ChordsSongController::find($id)->remove();
+		return \App\Models\ChordsSong::find($id)->remove();
 	}
 }

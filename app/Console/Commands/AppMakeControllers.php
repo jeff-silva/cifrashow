@@ -76,25 +76,25 @@ class AppMakeControllers extends Command
 
                 $methods['getSearch'] = implode("\n", [
                     "\tpublic function getSearch() {",
-                    "\t\treturn {$controller->namespace}::querySearch();",
+                    "\t\treturn {$model->namespace}::querySearch();",
                     "\t}",
                 ]);
 
                 $methods['getFind'] = implode("\n", [
                     "\tpublic function getFind(\$id) {",
-                    "\t\treturn {$controller->namespace}::find(\$id);",
+                    "\t\treturn {$model->namespace}::find(\$id);",
                     "\t}",
                 ]);
 
                 $methods['postSave'] = implode("\n", [
-                    "\tpublic function postSave(\Request \$request) {",
-                    "\t\treturn {$controller->namespace}::store(\$request->all());",
+                    "\tpublic function postSave() {",
+                    "\t\treturn (new {$model->namespace})->store(request()->all());",
                     "\t}",
                 ]);
 
                 $methods['postDelete'] = implode("\n", [
                     "\tpublic function postDelete(\$id) {",
-                    "\t\treturn {$controller->namespace}::find(\$id)->remove();",
+                    "\t\treturn {$model->namespace}::find(\$id)->remove();",
                     "\t}",
                 ]);
 

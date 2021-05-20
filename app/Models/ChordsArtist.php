@@ -15,7 +15,7 @@ class ChordsArtist extends \Illuminate\Database\Eloquent\Model
 	];
 
 	public function validate($data=[]) {
-		return \Validator::make($data, ['title' => ['required']]);
+		return \Validator::make($data, ['name' => ['required']]);
 	}
 
 	public function chordsSongs() {
