@@ -10,7 +10,7 @@ class ChordsSong extends \Illuminate\Database\Eloquent\Model
 		'id',
 		'user_id',
 		'artist_id',
-		'title',
+		'name',
 		'midi',
 		'items',
 		'created_at',
@@ -19,7 +19,7 @@ class ChordsSong extends \Illuminate\Database\Eloquent\Model
 	];
 
 	public function validate($data=[]) {
-		return \Validator::make($data, ['title' => ['required']]);
+		return \Validator::make($data, ['name' => ['required']]);
 	}
 
 	public function chordsArtist() {

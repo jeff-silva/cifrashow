@@ -1,11 +1,21 @@
 <template><div>
-    <ui-form method="post" action="/api/chords-artist/save" v-model="model" @success="handleSucccess($event)">
+    <ui-form method="post" action="/api/chords-song/save" v-model="model" @success="handleSucccess($event)">
         <ui-field label="Artista/Banda">
+            <input type="text" class="form-control" v-model="model.artist_id">
+        </ui-field>
+
+        <ui-field label="Música">
             <input type="text" class="form-control" v-model="model.name">
         </ui-field>
 
+        <ui-field label="Arquivo MIDI">
+            <ui-file v-model="model.midi"></ui-file>
+        </ui-field>
+
+        <midiplayer v-model="model"></midiplayer>
+
         <ui-actions>
-            <nuxt-link to="/admin/chords/artist" class="btn">Voltar</nuxt-link>
+            <nuxt-link to="/admin/chords/song" class="btn">Voltar</nuxt-link>
 
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-fw fa-save"></i> Salvar
@@ -27,12 +37,12 @@ export default {
     methods: {
         handleSucccess(model) {
             this.$swal('Artista salvo', '', 'success');
-            this.$router.push(`/admin/chords/artist/${model.id}`);
+            this.$router.push(`/admin/chords/song/${model.id}`);
         },
 
         loadModel() {
             if (0==+this.$route.params.id) return;
-            this.$axios.get(`/api/chords-artist/find/${this.$route.params.id}`).then(resp => {
+            this.$axios.get(`/api/chords-song/find/${this.$route.params.id}`).then(resp => {
                 this.model = resp.data;
             });
         },

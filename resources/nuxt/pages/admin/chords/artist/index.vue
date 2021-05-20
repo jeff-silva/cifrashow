@@ -21,8 +21,6 @@
         </template>
     </ui-table>
 
-    <pre>{{ $data }}</pre>
-
     <ui-actions>
         <nuxt-link to="/admin/chords/artist/0" class="btn btn-primary">Novo</nuxt-link>
     </ui-actions>

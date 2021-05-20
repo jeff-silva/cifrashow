@@ -2,7 +2,7 @@
 <!-- header-fixed -->
 
 <template>
-    <div>
+<div>
 
 	<div class="item-purchase-banner" style="display: none;">
 		<p class="font-weight-medium banner-text">Upgrade to Premium For More Pro Features</p>
@@ -143,29 +143,13 @@
 			</div>
 			<!-- content viewport ends --><!-- partial:partials/_footer.html -->
 			<footer class="footer">
-				<div class="row">
-					<div class="col-sm-6 text-center text-sm-right order-sm-1">
-						<ul class="text-gray">
-							<li><a href="#">Terms of use</a></li>
-							<li><a href="#">Privacy Policy</a></li>
-						</ul>
-					</div>
-					<div class="col-sm-6 text-center text-sm-left mt-3 mt-sm-0"><small class="text-muted d-block">Copyright © 2019 <a href="http://www.uxcandy.co" target="_blank">UXCANDY</a>. All rights reserved</small> <small class="text-gray mt-2">Handcrafted With <i class="mdi mdi-heart text-danger"></i></small></div>
-				</div>
+				&nbsp;
 			</footer>
 			<!-- partial -->
 		</div>
 		<!-- page content ends -->
 	</div>
-	<!--page body ends --><!-- SCRIPT LOADING START FORM HERE /////////////--><!-- plugins:js -->
-	<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;">
-		<defs id="SvgjsDefs1002"></defs>
-		<polyline id="SvgjsPolyline1003" points="0,0"></polyline>
-		<path id="SvgjsPath1004" d="M0 0 "></path>
-	</svg>
-
-
-    </div>
+</div>
 </template>
 
 <script>
