@@ -1,115 +1,117 @@
-<template><div class="ui-address" style="position:relative; z-index:1;">
-    <div class="row">
-        <div class="col-12 col-lg-8 mb-2">
-            <div class="input-group form-control border-0 p-0">
-                <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
-                    CEP
-                </div></div>
-                <input type="text" class="form-control" v-model="props.value.zipcode"
-                    v-mask="'#####-###'" autocomplete="off-none"
-                    @keyup.enter.prevent="osmSearch({q:props.value.zipcode}, false)">
-                <div class="input-group-append"><div class="input-group-btn border-0">
-                    <button type="button" class="btn btn-secondary rounded-0" @click="osmSearch({q:props.value.zipcode}, false)">
-                        <i class="fa fa-fw fa-spin fa-spinner" v-if="loading"></i>
-                        <i class="fa fa-fw fa-search" v-else></i>
-                    </button>
-                </div></div>
+<template>
+    <div class="ui-address" style="position:relative; z-index:1;">
+        <div class="row">
+            <div class="col-12 col-lg-8 mb-2">
+                <div class="input-group form-control border-0 p-0">
+                    <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
+                        CEP
+                    </div></div>
+                    <input type="text" class="form-control" v-model="props.value.zipcode"
+                        v-mask="'#####-###'" autocomplete="off-none"
+                        @keyup.enter.prevent="osmSearch({q:props.value.zipcode}, false)">
+                    <div class="input-group-append"><div class="input-group-btn border-0">
+                        <button type="button" class="btn btn-secondary rounded-0" @click="osmSearch({q:props.value.zipcode}, false)">
+                            <i class="fa fa-fw fa-spin fa-spinner" v-if="loading"></i>
+                            <i class="fa fa-fw fa-search" v-else></i>
+                        </button>
+                    </div></div>
+                </div>
+            </div>
+
+            <div class="col-12"></div>
+
+            <div class="col-12 col-lg-8 mb-2">
+                <div class="input-group form-control border-0 p-0" style="height:auto;">
+                    <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
+                        Endereço
+                    </div></div>
+                    <input type="text" class="form-control" v-model="props.value.route" placeholder="Endereço"
+                        autocomplete="off-none" @focus="$refs.dropdown.show($event)"
+                        @keyup="debounce(500, () => { osmSearch({q:props.value.route}, true) })">
+                </div>
+
+                <ui-dropdown ref="dropdown">
+                    <template #content>
+                        <div class="bg-white shadow" style="max-height:300px; overflow:auto;">
+                            <a href="javascript:;" v-for="r in searchResults" class="d-block p-2 text-dark" style="border-bottom:solid 1px #eee; text-decoration:none;" @click="selectPlace(r); $refs.dropdown.toggle();">
+                                {{ r.address.road||'' }}, {{ r.address.suburb||r.address.neighbourhood }} - {{ r.address.city }}/{{ getEstadoFromCode(r.address.state) }} | {{ r.address.postcode }}
+                            </a>
+                        </div>
+                    </template>
+                </ui-dropdown>
+            </div>
+
+            <div class="col-6 col-lg-4 mb-2">
+                <div class="input-group form-control border-0 p-0">
+                    <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
+                        Número
+                    </div></div>
+                    <input type="text" class="form-control" v-model="props.value.number" @change="emit()">
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-4 mb-2">
+                <div class="input-group form-control border-0 p-0" title="Complemento">
+                    <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
+                        Comp.
+                    </div></div>
+                    <input type="text" class="form-control" v-model="props.value.complement" @change="emit()">
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4 mb-2">
+                <div class="input-group form-control border-0 p-0" :title="'Bairro '+props.value.district">
+                    <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
+                        Bairro
+                    </div></div>
+                    <input type="text" class="form-control" v-model="props.value.district" @change="emit()">
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="input-group form-control border-0 p-0">
+                    <input type="text" class="form-control" v-model="props.value.city" @change="emit()" placeholder="Cidade">
+
+                    <select class="form-control" v-model="props.value.st" @change="emit()">
+                        <option value="">Estado</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <div class="col-12"></div>
-
-        <div class="col-12 col-lg-8 mb-2">
-            <div class="input-group form-control border-0 p-0" style="height:auto;">
-                <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
-                    Endereço
-                </div></div>
-                <input type="text" class="form-control" v-model="props.value.route" placeholder="Endereço"
-                    autocomplete="off-none" @focus="$refs.dropdown.show($event)"
-                    @keyup="debounce(500, () => { osmSearch({q:props.value.route}, true) })">
-            </div>
-
-            <ui-dropdown ref="dropdown">
-                <template #content>
-                    <div class="bg-white shadow" style="max-height:300px; overflow:auto;">
-                        <a href="javascript:;" v-for="r in searchResults" class="d-block p-2 text-dark" style="border-bottom:solid 1px #eee; text-decoration:none;" @click="selectPlace(r); $refs.dropdown.toggle();">
-                            {{ r.address.road||'' }}, {{ r.address.suburb||r.address.neighbourhood }} - {{ r.address.city }}/{{ getEstadoFromCode(r.address.state) }} | {{ r.address.postcode }}
-                        </a>
-                    </div>
-                </template>
-            </ui-dropdown>
-        </div>
-
-        <div class="col-6 col-lg-4 mb-2">
-            <div class="input-group form-control border-0 p-0">
-                <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
-                    Número
-                </div></div>
-                <input type="text" class="form-control" v-model="props.value.number" @change="emit()">
-            </div>
-        </div>
-
-        <div class="col-6 col-lg-4 mb-2">
-            <div class="input-group form-control border-0 p-0" title="Complemento">
-                <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
-                    Comp.
-                </div></div>
-                <input type="text" class="form-control" v-model="props.value.complement" @change="emit()">
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-4 mb-2">
-            <div class="input-group form-control border-0 p-0" :title="'Bairro '+props.value.district">
-                <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
-                    Bairro
-                </div></div>
-                <input type="text" class="form-control" v-model="props.value.district" @change="emit()">
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-4">
-            <div class="input-group form-control border-0 p-0">
-                <input type="text" class="form-control" v-model="props.value.city" @change="emit()" placeholder="Cidade">
-
-                <select class="form-control" v-model="props.value.st" @change="emit()">
-                    <option value="">Estado</option>
-                    <option value="AC">Acre</option>
-                    <option value="AL">Alagoas</option>
-                    <option value="AP">Amapá</option>
-                    <option value="AM">Amazonas</option>
-                    <option value="BA">Bahia</option>
-                    <option value="CE">Ceará</option>
-                    <option value="DF">Distrito Federal</option>
-                    <option value="ES">Espírito Santo</option>
-                    <option value="GO">Goiás</option>
-                    <option value="MA">Maranhão</option>
-                    <option value="MT">Mato Grosso</option>
-                    <option value="MS">Mato Grosso do Sul</option>
-                    <option value="MG">Minas Gerais</option>
-                    <option value="PA">Pará</option>
-                    <option value="PB">Paraíba</option>
-                    <option value="PR">Paraná</option>
-                    <option value="PE">Pernambuco</option>
-                    <option value="PI">Piauí</option>
-                    <option value="RJ">Rio de Janeiro</option>
-                    <option value="RN">Rio Grande do Norte</option>
-                    <option value="RS">Rio Grande do Sul</option>
-                    <option value="RO">Rondônia</option>
-                    <option value="RR">Roraima</option>
-                    <option value="SC">Santa Catarina</option>
-                    <option value="SP">São Paulo</option>
-                    <option value="SE">Sergipe</option>
-                    <option value="TO">Tocantins</option>
-                </select>
-            </div>
-        </div>
+        <l-map v-if="mapBindComp" v-bind="mapBindComp" class="mt-2" style="height:200px; overflow:hidden; z-index:1;">
+            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+            <l-marker :lat-lng="mapBindComp.center" :draggable="true" @moveend="osmReverse({lat:$event.sourceTarget._latlng.lat, lon:$event.sourceTarget._latlng.lng}, false)"></l-marker>
+        </l-map>
     </div>
-
-    <l-map v-if="mapBindComp" v-bind="mapBindComp" class="mt-2" style="height:200px; overflow:hidden; z-index:1;">
-        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-        <l-marker :lat-lng="mapBindComp.center" :draggable="true" @moveend="osmReverse({lat:$event.sourceTarget._latlng.lat, lon:$event.sourceTarget._latlng.lng}, false)"></l-marker>
-    </l-map>
-</div></template>
+</template>
 
 <script>
 export default {
@@ -298,9 +300,5 @@ export default {
     // beforeDestroy() {
     //     window.removeEventListener('click', this.documentClickHandle);
     // },
-};</script>
-
-
-<style>
-
-</style>
+}
+</script>

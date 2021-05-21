@@ -75,6 +75,11 @@ class AppBuild extends Command
             'title' => 'Gera/altera arquivos de controllers',
             'command' => 'app:make-controllers',
         ];
+        
+        $commands[] = [
+            'title' => 'Gera/altera arquivos de UI',
+            'command' => 'app:make-ui',
+        ];
 
         foreach($commands as $com) {
             $this->comment("⚙️  {$com['title']}");

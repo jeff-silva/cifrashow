@@ -1,7 +1,7 @@
 <template><div>
     <ui-form method="post" action="/api/chords-song/save" v-model="model" @success="handleSucccess($event)">
         <ui-field label="Artista/Banda">
-            <input type="text" class="form-control" v-model="model.artist_id">
+            <ui-chords-artist v-model="model.artist_id"></ui-chords-artist>
         </ui-field>
 
         <ui-field label="Música">
@@ -12,7 +12,7 @@
             <ui-file v-model="model.midi"></ui-file>
         </ui-field>
 
-        <midiplayer v-model="model"></midiplayer>
+        <midiplayer v-model="model" :edit="true"></midiplayer>
 
         <ui-actions>
             <nuxt-link to="/admin/chords/song" class="btn">Voltar</nuxt-link>
@@ -36,7 +36,7 @@ export default {
 
     methods: {
         handleSucccess(model) {
-            this.$swal('Artista salvo', '', 'success');
+            this.$swal('Cifra salva', '', 'success');
             this.$router.push(`/admin/chords/song/${model.id}`);
         },
 

@@ -1,6 +1,8 @@
-<template><div class="ui-code bg-dark">
-  <codemirror v-model="props.value" :options="compOptions"></codemirror>
-</div></template>
+<template>
+  <div class="ui-code bg-dark">
+    <codemirror v-model="props.value" :options="compOptions"></codemirror>
+  </div>
+</template>
 
 <style>
 .ui-code .CodeMirror-cursor {height:16px!important;}

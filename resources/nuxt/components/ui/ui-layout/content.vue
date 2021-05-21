@@ -1,9 +1,12 @@
-<template><div>
-    <h1 v-html="props.title"></h1>
-    <div v-html="props.text"></div>
-</div></template>
+<template>
+    <div>
+        <h1 v-html="props.title"></h1>
+        <div v-html="props.text"></div>
+    </div>
+</template>
 
-<script>export default {
+<script>
+export default {
     props: {
         title: {default:'Default title'},
         text: {default:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim accusamus exercitationem explicabo eius totam at tempora earum, veritatis, architecto, voluptates fugit esse? Doloremque temporibus molestiae fugiat porro obcaecati rerum dignissimos.'},
@@ -33,4 +36,5 @@
             props: Object.assign({}, this.$props),
         };
     },
-};</script>
+}
+</script>

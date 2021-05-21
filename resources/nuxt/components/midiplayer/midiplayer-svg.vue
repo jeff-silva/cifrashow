@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="props.value && props.value.items">
         <div style="position:relative; overflow-x:scroll;" @mousemove="mousemoveHandler($event)">
             <svg :width="props.zoomX+'%'" height="40px" ref="referenceArea">
 
@@ -37,9 +37,6 @@
                 </button>
             </div></div>
         </div>
-
-        <!-- <pre>selectArea: {{ selectArea }}</pre> -->
-        <!-- <pre>props.value: {{ props.value }}</pre> -->
     </div>
 </template>
 

@@ -290,6 +290,10 @@ trait Model
 
     public function store($data=[]) {
         $data = array_merge($this->toArray(), $data);
+        $data = array_map(function($value) {
+            return is_array($value)? json_encode($value): $value;
+        }, $data);
+        
         $pk = $this->getKeyName();
         $id = isset($data[$pk])? $data[$pk]: false;
 

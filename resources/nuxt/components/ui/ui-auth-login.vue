@@ -1,27 +1,32 @@
-<template><div>
-    <form @submit.prevent="submit()">
-        <div class="alert alert-danger" v-if="error" v-html="error"></div>
+<template>
+    <div>
+        <form @submit.prevent="submit()">
+            <div class="alert alert-danger" v-if="error" v-html="error"></div>
 
-        <slot name="content">
-            <div class="form-group">
-                <input type="text" class="form-control" v-model="post.email" placeholder="Seu e-mail">
-            </div>
+            <slot name="content">
+                <div class="form-group">
+                    <input type="text" class="form-control" v-model="post.email" placeholder="Seu e-mail">
+                </div>
 
-            <div class="form-group">
-                <ui-password v-model="post.password" placeholder="Senha" :meter="false"></ui-password>
-            </div>
+                <div class="form-group">
+                    <ui-password v-model="post.password" placeholder="Senha" :meter="false"></ui-password>
+                </div>
 
-            <div class="form-group text-right">
-                <button type="submit" class="btn btn-primary btn-block">
-                    <span v-if="loading"><i class="fas fa-spinner fa-spin"></i></span>
-                    <span v-else>Login</span>
-                </button>
-            </div>
-        </slot>
-    </form>
-</div></template>
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span v-if="loading"><i class="fas fa-spinner fa-spin"></i></span>
+                        <span v-else>Login</span>
+                    </button>
+                </div>
+            </slot>
+        </form>
+    </div>
+</template>
 
-<script>export default {
+<script>
+export default {
+    name: "ui-auth-login",
+
     methods: {
         submit() {
             this.error = false;
@@ -48,4 +53,5 @@
             },
         };
     },
-};</script>
+}
+</script>

@@ -1,5 +1,5 @@
 <template><div>
-    <ui-axios method="get" action="/api/email-sent/search" v-model="params" #default="{loading, resp, error, submit}">
+    <!-- <ui-axios method="get" action="/api/email-sent/search" v-model="params" #default="{loading, resp, error, submit}">
         <div class="input-group" style="max-width:400px;">
             <input type="text" class="form-control" v-model="params.search" placeholder="Pesquisar">
             <div class="input-group-append"><div class="input-group-btn">
@@ -29,7 +29,7 @@
                 </a>
             </template>
         </ui-table>
-    </ui-axios>
+    </ui-axios> -->
 
     <ui-modal v-model="email">
         <template #header>

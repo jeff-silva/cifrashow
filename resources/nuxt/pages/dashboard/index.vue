@@ -1,5 +1,5 @@
 <template><div>
-    <ui-axios method="get" action="/api/app/dashboard" #default="axios">
+    <!-- <ui-axios method="get" action="/api/app/dashboard" #default="axios">
         <div class="row no-gutters align-items-center">
             <div class="col-6"><h2 class="text-uppercase">Contadores</h2></div>
             <div class="col-6">
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-    </ui-axios>
+    </ui-axios> -->
 </div></template>
 
 <script>

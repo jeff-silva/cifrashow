@@ -9,7 +9,7 @@ class AppController extends Controller
     /**
      * Lista todas as rotas de API
      */
-    public function index() {
+    public function getRoutes() {
         $routes = [];
 
         foreach(\Route::getRoutes() as $route) {

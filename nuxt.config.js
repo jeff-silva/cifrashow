@@ -38,22 +38,27 @@ export default {
 	/*
 	** Global CSS
 	*/
-	css: ['@/assets/app.scss'],
+	css: ['@/app.scss'],
 
 	/*
 	** Plugins to load before mounting the App
 	** https://nuxtjs.org/guide/plugins
 	*/
 	plugins: [
+		'@/app.js',
 		'@/plugins/axios.js',
-		'@/plugins/utils.js',
 	],
 
 	/*
-	** Auto import components
-	** See https://nuxtjs.org/api/configuration-components
+	** Auto import components. See:
+	** https://nuxtjs.org/api/configuration-components
+	** https://github.com/nuxt/components
 	*/
-	components: true,
+	components: [
+		'~/components',
+		{ path: '~/components/ui/', prefix: ''},
+		{ path: '~/components/generated/', prefix: ''}
+	],
 
 	/*
 	** Nuxt.js dev-modules
@@ -185,10 +190,10 @@ export default {
 			config.resolve.alias['vue'] = 'vue/dist/vue.common';
 		},
 
-		babel: {
+		/* babel: {
 			plugins: [
 				['@babel/plugin-proposal-private-methods', { loose: true }],
 			],
-		},
+		}, */
 	}
 }

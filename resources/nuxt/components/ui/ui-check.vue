@@ -1,14 +1,16 @@
-<template><div class="ui-check">
-  <label class="input-group">
-    <div class="input-group-prepend"><div class="input-group-text bg-transparent border-0 p-1">
-      <i v-bind="compIconBind"></i>
-      <input v-bind="compInputBind" v-model="props.value" :true-value="props.trueValue" :false-value="props.falseValue" @input="emit()">
-    </div></div>
-    <div class="form-control bg-transparent border-0">
-      <slot name="default"></slot>
-    </div>
-  </label>
-</div></template>
+<template>
+  <div class="ui-check">
+    <label class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text bg-transparent border-0 p-1">
+        <i v-bind="compIconBind"></i>
+        <input v-bind="compInputBind" v-model="props.value" :true-value="props.trueValue" :false-value="props.falseValue" @input="emit()">
+      </div></div>
+      <div class="form-control bg-transparent border-0">
+        <slot name="default"></slot>
+      </div>
+    </label>
+  </div>
+</template>
 
 <style>
 .ui-check {user-select:none; cursor:pointer!important;}

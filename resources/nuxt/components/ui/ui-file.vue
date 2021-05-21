@@ -1,19 +1,26 @@
-<template><div class="ui-file">
-    <label class="input-group">
-        <div class="input-group-prepend"><div class="input-group-text">
-            <i class="fas fa-fw fa-upload"></i>
-        </div></div>
+<template>
+    <div class="ui-file">
+        <div class="input-group">
+            <label class="input-group-prepend"><div class="input-group-text">
+                <i class="fas fa-fw" :class="computedIcon"></i>
+                <input type="file" style="display:none!important;" @change="handleFile($event)">
+            </div></label>
 
-        <div class="form-control">{{ placeholder }}</div>
+            <input type="text" class="form-control" v-model="props.value.name" placeholder="Nome do arquivo" @input="emitValue()">
 
-        <input type="file" style="display:none!important;" @change="handleFile($event)">
-    </label>
-</div></template>
+            <div class="input-group-append"><div class="input-group-btn">
+                <button type="button" class="btn btn-danger" @click="props.value={}; emitValue();">
+                    <i class="fas fa-fw fa-times"></i>
+                </button>
+            </div></div>
+        </div>
+    </div>
+</template>
 
 <script>
 export default {
     props: {
-        value: {default:''},
+        value: {default:{}},
     },
 
     watch: {
@@ -34,19 +41,41 @@ export default {
         },
 
         handleFile(ev) {
+            let file = ev.target.files[0];
             const reader = new FileReader();
-            reader.readAsDataURL(ev.target.files[0]);
+            reader.readAsDataURL(file);
             reader.onload = () => {
-                this.props.value = reader.result;
+                this.props.value = {
+                    name: file.name.split('.').slice(0, -1).join('.'),
+                    filename: file.name,
+                    size: file.size,
+                    type: file.type,
+                    url: reader.result,
+                };
                 this.emitValue();
             }
         },
     },
 
     computed: {
-        placeholder() {
-            if (! this.props.value) return 'Sem arquivo';
-            return this.props.value.split(';')[0];
+        computedIcon() {
+            let icon = 'fa-upload';
+
+            if (this.props.value && this.props.value.type) {
+                icon = this.props.value.type.split('/')[0];
+
+                if (icon=='audio') {
+                    icon = 'fa-file-audio';
+                }
+                else if (icon=='image') {
+                    icon = 'fa-image';
+                }
+                else {
+                    icon = 'fa-file';
+                }
+            }
+
+            return icon;
         },
     },
 }

@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 20/05/2021 às 06:48:00
+ * Gerado em 21/05/2021 às 06:13:09
  * Por favor, não altere manualmente.
  */
 
@@ -20,7 +20,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => 3,
       'Create_time' => '2021-05-20 01:41:27',
-      'Update_time' => '2021-05-20 03:27:45',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -79,10 +79,10 @@ return [
       'Data_length' => 16384,
       'Max_data_length' => 0,
       'Index_length' => 32768,
-      'Data_free' => 0,
+      'Data_free' => 5242880,
       'Auto_increment' => 2,
       'Create_time' => '2021-05-20 03:47:58',
-      'Update_time' => '2021-05-20 03:47:03',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -254,7 +254,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => 4,
       'Create_time' => '2021-05-20 01:30:26',
-      'Update_time' => '2021-05-20 01:30:26',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -346,7 +346,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => 2,
       'Create_time' => '2021-05-20 01:30:26',
-      'Update_time' => '2021-05-20 01:30:27',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,

@@ -1,15 +1,17 @@
-<template><div>
-    <draggable v-model="props.value" v-bind="computedBind" @end="$emit('input', props.value)">
-        <transition-group
-            :duration="props.animation"
-            name="ui-draggable-transition-group"
-            enter-active-class="animate__animated animate__fadeIn"
-            leave-active-class="animate__animated animate__fadeOut"
-        >
-            <slot></slot>
-        </transition-group>
-    </draggable>
-</div></template>
+<template>
+    <div>
+        <draggable v-model="props.value" v-bind="computedBind" @end="$emit('input', props.value)">
+            <transition-group
+                :duration="props.animation"
+                name="ui-draggable-transition-group"
+                enter-active-class="animate__animated animate__fadeIn"
+                leave-active-class="animate__animated animate__fadeOut"
+            >
+                <slot></slot>
+            </transition-group>
+        </draggable>
+    </div>
+</template>
 
 
 <script>
