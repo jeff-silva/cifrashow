@@ -6,11 +6,13 @@ class ChordsArtistController extends Controller
 {
 
 	public function getSearch() {
-		return \App\Models\ChordsArtist::querySearch();
+		return \App\Models\ChordsArtist::withCount([
+			'chordsSongs',
+		])->querySearch();
 	}
 
-	public function getFind($id) {
-		return \App\Models\ChordsArtist::find($id);
+	public function getFind($idSlug) {
+		return \App\Models\ChordsArtist::findIdSlug($idSlug);
 	}
 
 	public function postSave() {

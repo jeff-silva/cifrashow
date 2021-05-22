@@ -33,7 +33,7 @@
 	</div>
 
 	<el-drawer
-		:title="false"
+		title=""
 		:with-header="false"
 		direction="ltr"
 		:visible.sync="drawer"

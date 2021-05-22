@@ -3,11 +3,11 @@
         <template #header>
             <th>Música</th>
             <th width="200px">Artista</th>
-            <th width="100px">Alterado em</th>
+            <th width="150px">Alterado em</th>
         </template>
 
         <template #item="{item}">
-            <td>{{ item.name }}</td>
+            <td><nuxt-link :to="item.link.profile">{{ item.name }}</nuxt-link></td>
             <td><div v-if="item.chords_artist">
                 {{ item.chords_artist.name }}
             </div></td>

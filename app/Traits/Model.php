@@ -38,7 +38,28 @@ trait Model
         self::deleted(function($model) use($_function) {
             $_function($model, 'deleted');
         });
+
+        self::saving(function($model) {
+            if (in_array('slug', $model->fillable)) {
+                $model->slug = (string) \Str::slug($model->name);
+            }
+        });
     }
+
+
+    // Encontra por id ou slug
+    // Model::findIdSlug('slug-name') ou Model::findIdSlug(35)
+    public function scopeFindIdSlug($query, $idSlug) {
+        $query = $query->where('id', $idSlug);
+
+        if (in_array('slug', $this->fillable)) {
+            $query = $query->orWhere('slug', $idSlug);
+        }
+
+        return $query->first();
+    }
+
+
 
     // Escopo de busca
     // Model::search(['search'=>'Term']);

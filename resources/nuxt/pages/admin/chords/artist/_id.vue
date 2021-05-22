@@ -1,5 +1,10 @@
 <template><div>
     <ui-form method="post" action="/api/chords-artist/save" v-model="model" @success="handleSucccess($event)">
+        <ui-field label="Capa">
+            <ui-file v-model="model.cover"></ui-file>
+            <img :src="model.cover.url" alt="" width="100%" v-if="model.cover">
+        </ui-field>
+
         <ui-field label="Artista/Banda">
             <input type="text" class="form-control" v-model="model.name">
         </ui-field>
@@ -20,7 +25,7 @@ export default {
 
     data() {
         return {
-            model: {},
+            model: {url:""},
         };
     },
 

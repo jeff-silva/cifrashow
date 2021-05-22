@@ -10,6 +10,7 @@ class ChordsSong extends \Illuminate\Database\Eloquent\Model
 		'id',
 		'user_id',
 		'artist_id',
+		'slug',
 		'name',
 		'midi',
 		'items',
@@ -18,11 +19,27 @@ class ChordsSong extends \Illuminate\Database\Eloquent\Model
 		'deleted_at'
 	];
 
+	protected $appends = [
+		'link',
+	];
+
 	public function getMidiAttribute($value) {
 		if (! is_array($value)) {
 			$value = json_decode($value, true);
 		}
 		return $value;
+	}
+
+	public function getLinkAttribute() {
+		$link = [
+			'profile' => '',
+		];
+
+		if ($this->slug) {
+			$link['profile'] = "/chord/{$this->slug}";
+		}
+
+		return $link;
 	}
 
 	public function getItemsAttribute($value) {

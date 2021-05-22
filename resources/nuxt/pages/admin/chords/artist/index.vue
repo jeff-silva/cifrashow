@@ -2,11 +2,13 @@
     <ui-table v-bind="search">
         <template #header>
             <th>Artista/Músico</th>
-            <th>Alterado em</th>
+            <th width="50px">Músicas</th>
+            <th width="150px">Alterado em</th>
         </template>
 
         <template #item="{item}">
-            <td>{{ item.name }}</td>
+            <td><nuxt-link :to="item.link.profile">{{ item.name }}</nuxt-link></td>
+            <td>{{ item.chords_songs_count }}</td>
             <td><ui-timeago v-model="item.updated_at"></ui-timeago></td>
         </template>
 

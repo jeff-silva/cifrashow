@@ -8,7 +8,7 @@
 
             <!-- Single -->
             <template v-if="i.children.length==0">
-                <el-menu-item :index="index">
+                <el-menu-item :index="''+index">
                     <nuxt-link :to="i.to" class="d-block" style="color:var(--dark)!important; text-decoration:none;">
                         <i v-if="i.icon" :class="i.icon"></i>
                         <span>{{ i.label }}</span>
@@ -17,7 +17,7 @@
             </template>
 
             <!-- Submenu -->
-            <el-submenu :index="index" v-else>
+            <el-submenu :index="''+index" v-else>
                 <template slot="title">
                     <i v-if="i.icon" :class="i.icon"></i>
                     <span>{{ i.label }}</span>
@@ -82,7 +82,7 @@ export default {
 
             items.push({
                 label: "Sair",
-                to: false,
+                to: "",
                 icon: "fas fa-fw fa-power-off",
                 children: [],
             });
