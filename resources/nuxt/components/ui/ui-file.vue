@@ -1,19 +1,33 @@
 <template>
     <div class="ui-file">
-        <div class="input-group">
-            <label class="input-group-prepend"><div class="input-group-text">
-                <i class="fas fa-fw" :class="computedIcon"></i>
-                <input type="file" style="display:none!important;" @change="handleFile($event)">
-            </div></label>
 
-            <input type="text" class="form-control" v-model="props.value.name" placeholder="Nome do arquivo" @input="emitValue()">
+        <!-- Edit -->
+        <div class="input-group form-control p-0" v-if="props.value && props.value.name && props.value.url">
+            <div class="input-group-btn">
+                <button type="button" class="btn">
+                    <i class="fas fa-fw" :class="computedIcon"></i>
+                </button>
+            </div>
 
-            <div class="input-group-append"><div class="input-group-btn">
-                <button type="button" class="btn btn-danger" @click="props.value={}; emitValue();">
+            <input type="text" class="form-control border-0" v-model="props.value.name" placeholder="Nome do arquivo" @input="emitValue()">
+
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-danger rounded-0" @click="props.value={}; emitValue();">
                     <i class="fas fa-fw fa-times"></i>
                 </button>
-            </div></div>
+            </div>
         </div>
+
+        <!-- Empty -->
+        <label class="input-group form-control p-0" v-else>
+            <div class="input-group-btn">
+                <a href="javascript:;" class="btn">
+                    <i class="fas fa-fw fa-upload"></i>
+                </a>
+                <input type="file" style="display:none!important;" @change="handleFile($event)">
+            </div>
+            <div class="form-control border-0">Selecionar arquivo</div>
+        </label>
     </div>
 </template>
 

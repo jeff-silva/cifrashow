@@ -124,7 +124,7 @@ class AppMakeControllers extends Command
         $source = $this->classSource($class);
 
         if (method_exists($class, $method_name)) {
-            $source = preg_replace("/\t+public function {$method_name}(.+?)\}/s", $method_content, $source);
+            // $source = preg_replace("/\t+public function {$method_name}(.+?)\}/s", $method_content, $source);
         }
         else {
             $source = rtrim(rtrim($source), '}') ."\n{$method_content}\n}";

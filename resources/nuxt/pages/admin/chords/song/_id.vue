@@ -1,5 +1,7 @@
 <template><div>
-    <ui-form method="post" action="/api/chords-song/save" v-model="model" @success="handleSucccess($event)">
+    <ui-form method="post" action="/api/chords-song/save" v-model="model" @success="handleSucccess($event)"
+        #default="{loading}">
+
         <ui-field label="Artista/Banda">
             <ui-chords-artist v-model="model.artist_id"></ui-chords-artist>
         </ui-field>
@@ -18,7 +20,9 @@
             <nuxt-link to="/admin/chords/song" class="btn">Voltar</nuxt-link>
 
             <button type="submit" class="btn btn-primary">
-                <i class="fas fa-fw fa-save"></i> Salvar
+                <span v-if="loading" v-html="loading"></span>
+                <i v-else class="fas fa-fw fa-save"></i>
+                Salvar
             </button>
         </ui-actions>
     </ui-form>

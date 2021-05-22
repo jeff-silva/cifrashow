@@ -2,13 +2,15 @@
     <ui-table v-bind="search">
         <template #header>
             <th>Música</th>
-            <th>Artista</th>
-            <th>Alterado em</th>
+            <th width="200px">Artista</th>
+            <th width="100px">Alterado em</th>
         </template>
 
         <template #item="{item}">
             <td>{{ item.name }}</td>
-            <td>{{ item.artist_id }}</td>
+            <td><div v-if="item.chords_artist">
+                {{ item.chords_artist.name }}
+            </div></td>
             <td><ui-timeago v-model="item.updated_at"></ui-timeago></td>
         </template>
 

@@ -6,7 +6,9 @@ class ChordsSongController extends Controller
 {
 
 	public function getSearch() {
-		return \App\Models\ChordsSong::querySearch();
+		return \App\Models\ChordsSong::select(['id', 'user_id', 'artist_id', 'name', 'created_at', 'updated_at'])
+			->with(['user', 'chordsArtist'])
+			->querySearch();
 	}
 
 	public function getFind($id) {

@@ -86,6 +86,7 @@ export default {
             // drag dots
             if (this.drag && ev.buttons==1) {
                 this.drag.percent = x;
+                // this.emitValue();
             }
         },
 

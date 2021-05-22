@@ -1,6 +1,9 @@
 <template><div>
-	<el-select v-model="props.value" :multiple="props.multiple" class="form-control p-0">
-		<el-option value="">{{ props.placeholder }}</el-option>
+	<el-select v-model="props.value" :multiple="props.multiple"
+		@change="emitValue()" class="form-control p-0"
+		filterable remote :placeholder="props.placeholder"
+		reserve-keyword :remote-method="remoteSearch"
+	>
 		<el-option :value="i.id" :label="i.name||i.id" v-for="i in items" :key="i.id">{{ i.name||i.id }}</el-option>
 	</el-select>
 </div></template>
@@ -10,14 +13,26 @@ export default {
 	name: "ui-chords-song",
 	
 	props: {
-		value: [Number, String, Array],
+		value: {default:"", type:[Number, String, Array]},
 		placeholder: {default:'Selecionar'},
 		multiple: {default:false},
 	},
 	
+	watch: {
+		$props: {deep:true, handler(value) {
+			this.props = JSON.parse(JSON.stringify(value));
+			this.remoteSearch('', this.props.value);
+		}},
+	},
+	
 	methods: {
-		removeSearch(q='') {
-			this.$axios.get('/api/chords-song/search', {params:{q}}).then(resp => {
+		emitValue() {
+			this.$emit('input', this.props.value);
+			this.$emit('change', this.props.value);
+		},
+		
+		remoteSearch(q='', id=null) {
+			this.$axios.get('/api/chords-song/search', {params:{q, id}}).then(resp => {
 				this.items = resp.data.data;
 			});
 		},
@@ -28,10 +43,6 @@ export default {
 			props: JSON.parse(JSON.stringify(this.$props)),
 			items: [],
 		};
-	},
-	
-	mounted() {
-		this.removeSearch();
 	},
 }
 </script>
