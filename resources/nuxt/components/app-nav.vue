@@ -1,7 +1,7 @@
 <template><div class="app-nav">
     <el-menu :collapse="collapse"
         background-color="transparent"
-        text-color="#fff"
+        text-color="#444"
         class="border-0"
     >
         <template v-for="(i, index) in navItems">
@@ -9,7 +9,7 @@
             <!-- Single -->
             <template v-if="i.children.length==0">
                 <el-menu-item :index="index">
-                    <nuxt-link :to="i.to" style="color:#fff; text-decoration:none;">
+                    <nuxt-link :to="i.to" class="d-block" style="color:var(--dark)!important; text-decoration:none;">
                         <i v-if="i.icon" :class="i.icon"></i>
                         <span>{{ i.label }}</span>
                     </nuxt-link>
@@ -25,7 +25,7 @@
 
                 <template v-for="(ii, iindex) in i.children">
                     <el-menu-item :index="index+'-'+iindex">
-                        <nuxt-link :to="ii.to" style="color:#fff; text-decoration:none;">
+                        <nuxt-link :to="ii.to" class="d-block" style="color:var(--dark)!important; text-decoration:none;">
                             <i v-if="ii.icon" :class="ii.icon"></i>
                             <span>{{ ii.label }}</span>
                         </nuxt-link>
