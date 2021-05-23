@@ -14,7 +14,7 @@
             <ui-file v-model="model.midi"></ui-file>
         </ui-field>
 
-        <midiplayer v-model="model" :edit="true"></midiplayer>
+        <midiplayer-editor v-model="model" class="my-3"></midiplayer-editor>
 
         <ui-actions>
             <nuxt-link to="/admin/chords/song" class="btn">Voltar</nuxt-link>
@@ -31,6 +31,7 @@
 <script>
 export default {
     layout: 'admin',
+    middleware: 'auth',
 
     data() {
         return {

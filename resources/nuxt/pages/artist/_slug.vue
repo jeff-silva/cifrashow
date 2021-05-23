@@ -20,6 +20,12 @@
 
 <script>
 export default {
+    head() {
+        return {
+            title: (this.model? this.model.name: 'Artista não encontrado'),
+        };
+    },
+
     data() {
         return {
             model: false,

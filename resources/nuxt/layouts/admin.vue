@@ -1,6 +1,6 @@
 <template><div style="background:#f5f5f5;">
 	<div class="row no-gutters">
-		<div class="col-lg-2 bg-white shadow-sm d-none d-lg-block p-0" style="height:100vh; overflow:auto;">
+		<div class="col-lg-2 bg-white shadow-sm d-none d-lg-block p-0" style="height:100vh; overflow:auto; position:sticky; top:0;">
 			<app-nav :collapse="navCollapse"></app-nav>
 		</div>
 		<div class="col-12 col-lg-10 p-0">
@@ -13,7 +13,7 @@
 				<div class="flex-grow-1"></div>
 				<div>
 					<el-dropdown trigger="click">
-						<span class="el-dropdown-link">
+						<span class="el-dropdown-link" v-if="$auth.user">
 							{{ $auth.user.name }}
 							<i class="fas fa-chevron-down ml-3"></i>
 						</span>

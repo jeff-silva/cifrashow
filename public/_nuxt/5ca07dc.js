@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[56],{738:function(n,t,e){"use strict";e.r(t);var r=e(18),component=Object(r.a)({},(function(){var n=this,t=n.$createElement;return(n._self._c||t)("div",[n._v("\r\n    Artistas\r\n")])}),[],!1,null,null,null);t.default=component.exports}}]);

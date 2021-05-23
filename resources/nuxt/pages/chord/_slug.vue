@@ -11,14 +11,20 @@
         <div class="container">
             <h1>{{ model.name }}</h1>
             <h2 v-if="model.chords_artist">{{ model.chords_artist.name }}</h2>
-        </div>
 
-        <pre>{{ model }}</pre>
+            <midiplayer :value="model"></midiplayer>
+        </div>
     </div>
 </div></template>
 
 <script>
 export default {
+    head() {
+        return {
+            title: (this.model? this.model.name: 'Música não encontrada'),
+        };
+    },
+
     data() {
         return {
             model: false,

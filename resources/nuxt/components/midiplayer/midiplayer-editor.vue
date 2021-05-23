@@ -1,40 +1,13 @@
 <!-- http://grimmdude.com/MidiPlayerJS/docs/Track.html#disable -->
 <template><div>
+    <a href="" class="btn btn-block btn-dark">refresh</a>
 
-    <!-- Editor -->
-    <div v-if="props.edit" @wheel.prevent="editor.zoomX += (($event.deltaY*-1)/10)">
-        <midiplayer-svg v-model="props.value"
-            @input="emitValue()"
-            :zoom-x="editor.zoomX" :song-percent="songPercent"
-        ></midiplayer-svg>
-    </div>
+    <midiplayer-editor-items v-model="props.value"
+        :song-percent="($refs.midiplayer? $refs.midiplayer.songPercent: 0)"
+        @change="emitValue()"
+    ></midiplayer-editor-items>
 
-    <!-- Player -->
-    <div>
-        <div class="d-flex align-items-center mt-3">
-            <div class="pr-1" v-if="!isPlaying">
-                <button type="button" class="btn btn-primary" @click="play()">
-                    <i class="fas fa-play"></i>
-                </button>
-            </div>
-
-            <div class="pr-1"  v-if="isPlaying">
-                <button type="button" class="btn btn-primary" @click="pause()">
-                    <i class="fas fa-pause"></i>
-                </button>
-            </div>
-
-            <div class="pr-1">
-                <button type="button" class="btn btn-primary" @click="stop()">
-                    <i class="fas fa-stop"></i>
-                </button>
-            </div>
-
-            <div class="flex-grow-1 pl-3">
-                <el-slider v-model="songPercent" @change="skipToPercent($event)"></el-slider>
-            </div>
-        </div>
-    </div>
+    <midiplayer :value="props.value" ref="midiplayer"></midiplayer>
 </div></template>
 
 <script>
@@ -44,20 +17,19 @@ import Soundfont from 'soundfont-player';
 export default {
     props: {
         value: {default:Object},
-        edit: {default:false},
-        // soundfont: {default:'marimba'}, // acoustic_grand_piano, marimba
     },
 
     watch: {
         $props: {deep:true, handler(value) {
             this.props = JSON.parse(JSON.stringify(value));
+            this.props.value = this.valueDefault(this.props.value);
             this.playerInit();
         }},
     },
 
     data() {
         return {
-            props: JSON.parse(JSON.stringify(this.$props)),
+            props: this.valueDefault(this.$props),
             lastPropsValueMidiUrl: false,
 
             instrument: false,
@@ -99,27 +71,90 @@ export default {
             this.$emit('input', this.props.value);
         },
 
+        valueDefault(value) {
+            let _merge = (item1, item2) => {
+                item1 = typeof item1=='object'? item1: {};
+                item2 = typeof item2=='object'? item2: {};
+                return JSON.parse(JSON.stringify(Object.assign({}, item1, item2)));
+            };
+
+            let chord = _merge({
+                id: false,
+                user_id: false,
+                artist_id: false,
+                slug: '',
+                name: '',
+                midi: {},
+                items: [],
+                user: {},
+                chords_artist: {},
+            }, value);
+
+            chord.chords_artist = _merge({
+                id: false,
+                slug: "",
+                name: "",
+                cover: {},
+            }, chord.chords_artist);
+
+            return chord;
+        },
+
+        uuid() {
+            return ([1e5] + 0).replace(/[018]/g, c => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16));
+        },
+
+        // item = {percent:35, type:"chord", value:"G#"};
+        itemAdd(item) {
+            item = JSON.parse(JSON.stringify(item||{}));
+            item = {id:this.uuid(), percent:0, type:'lyric', value:'', ...item};
+            this.props.value.items.push(item);
+            this.emitValue();
+        },
+
+        itemRemove(item) {
+            let index = this.props.value.items.indexOf(item);
+            this.props.value.items.splice(index, 1);
+            this.emitValue();
+        },
+
         playerInit() {
-            if (this.props.value && this.props.value.midi && this.props.value.midi.url) {
+            let _playerInit = () => {
+                console.log('playerInit');
+                
+                this.player = new MidiPlayer.Player(ev => {
+                    // this.playerEvent = ev;
+                    this.songPercent = Math.max(0, 100-this.player.getSongPercentRemaining());
+                    
+                    if (ev.name == 'Note on') {
+                        this.instrument.play(ev.noteName, AudioContext.currentTime, {gain:ev.velocity/100});
+                    }
+                });
+
+                let content = this.props.value.midi.url.split(',')[1];
+                content = Buffer.from(content, 'base64');
+                this.player.loadArrayBuffer(content);
+
+                Soundfont.instrument(this.$audioContext, 'marimba').then(instrument => {
+                    this.instrument = instrument;
+                });
+            };
+
+            if (!this.props.value.midi || (this.props.value.midi && !this.props.value.midi.url)) {
+                if (! +this.props.value.id) return;
+                this.$axios.get(`/api/chords-song/find/${this.props.value.id}`).then(resp => {
+                    this.props.value = resp.data;
+                    this.emitValue();
+                    this.playerInit();
+                });
+                return;
+            }
+            
+
+            if (this.props.value.midi && this.props.value.midi.url) {
                 if (this.lastPropsValueMidiUrl != this.props.value.midi.url) {
                     this.lastPropsValueMidiUrl = this.props.value.midi.url;
-
-                    this.player = new MidiPlayer.Player(ev => {
-                        // this.playerEvent = ev;
-                        this.songPercent = Math.max(0, 100-this.player.getSongPercentRemaining());
-                        
-                        if (ev.name == 'Note on') {
-                            this.instrument.play(ev.noteName, AudioContext.currentTime, {gain:ev.velocity/100});
-                        }
-                    });
-
-                    let content = this.props.value.midi.url.split(',')[1];
-                    content = Buffer.from(content, 'base64');
-                    this.player.loadArrayBuffer(content);
-
-                    Soundfont.instrument(new AudioContext(), 'marimba').then(instrument => {
-                        this.instrument = instrument;
-                    });
+                    _playerInit();
                 }
             }
         },

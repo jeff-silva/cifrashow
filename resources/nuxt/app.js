@@ -83,6 +83,8 @@ Vue.prototype.$push = function(sessions, callback) {
 	});
 };
 
+Vue.prototype.$audioContext = new AudioContext();
+
 // Filters
 
 import moment from 'moment';
