@@ -1,8 +1,16 @@
 <!-- http://grimmdude.com/MidiPlayerJS/docs/Track.html#disable -->
 <template><div>
 
-    <div class="bg-light p-2">
-        <h4>{{ props.value.chords_artist.name }} - {{ props.value.name }}</h4>
+    <!-- Editor -->
+    <div v-if="props.edit" @wheel.prevent="editor.zoomX += (($event.deltaY*-1)/10)">
+        <midiplayer-svg v-model="props.value"
+            @input="emitValue()"
+            :zoom-x="editor.zoomX" :song-percent="songPercent"
+        ></midiplayer-svg>
+    </div>
+
+    <!-- Player -->
+    <div>
         <div class="d-flex align-items-center mt-3">
             <div class="pr-1" v-if="!isPlaying">
                 <button type="button" class="btn btn-primary" @click="play()">
@@ -27,7 +35,6 @@
             </div>
         </div>
     </div>
-
 </div></template>
 
 <script>
@@ -37,13 +44,14 @@ import Soundfont from 'soundfont-player';
 export default {
     props: {
         value: {default:Object},
+        edit: {default:false},
+        // soundfont: {default:'marimba'}, // acoustic_grand_piano, marimba
     },
 
     watch: {
         $props: {deep:true, handler(value) {
             this.props = JSON.parse(JSON.stringify(value));
-            this.props.value = this.valueDefault(this.props.value);
-            // this.playerInit();
+            this.playerInit();
         }},
     },
 
@@ -65,35 +73,6 @@ export default {
     },
 
     computed: {
-        valueDefault(value) {
-            let _merge = (item1, item2) => {
-                item1 = typeof item1=='object'? item1: {};
-                item2 = typeof item2=='object'? item2: {};
-                return JSON.parse(JSON.stringify(Object.assign({}, item1, item2)));
-            };
-
-            let chords = _merge({
-                id: false,
-                user_id: false,
-                artist_id: false,
-                slug: '',
-                name: '',
-                midi: {},
-                items: [],
-                user: {},
-                chords_artist: {},
-            }, value);
-
-            chords.chords_artist = _merge({
-                id: false,
-                slug: "",
-                name: "",
-                cover: {},
-            }, chords.chords_artist);
-
-            return chords;
-        },
-
         isPlaying() {
             if (! this.player) return false;
             return this.player.isPlaying();
@@ -177,7 +156,7 @@ export default {
     },
 
     mounted() {
-        // this.playerInit();
+        this.playerInit();
     },
 }
 </script>

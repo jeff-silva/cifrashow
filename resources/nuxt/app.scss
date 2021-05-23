@@ -64,5 +64,8 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 // .form-control > .el-input * {background:none !important; border: none !important;}
 
 
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap');
+html, body {font-family: 'Baloo Tamma 2', cursive;}
 
 body {overflow-x:hidden!important;}
+a {text-decoration: none !important; color:var(--dark)}
