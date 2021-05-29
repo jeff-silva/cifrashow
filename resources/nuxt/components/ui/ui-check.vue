@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<style>
+<style module>
 .ui-check {user-select:none; cursor:pointer!important;}
 .ui-check-input input {display:none;}
 .ui-check-input input + div {border:solid 5px red;}

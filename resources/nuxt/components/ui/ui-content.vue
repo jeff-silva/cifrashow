@@ -5,7 +5,7 @@
     ></div>
 </template>
 
-<style>
+<style module>
 .ui-content.form-control {height:auto;}
 </style>
 

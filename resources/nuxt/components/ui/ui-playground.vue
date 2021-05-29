@@ -13,11 +13,6 @@
 </template>
 
 
-<style>
-.ui-playground {}
-</style>
-
-
 <script>
 import Vue from 'vue';
 

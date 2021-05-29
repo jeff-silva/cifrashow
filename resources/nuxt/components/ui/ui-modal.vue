@@ -29,7 +29,8 @@
     </transition>
 </div></template>
 
-<script>export default {
+<script>
+export default {
     props: {
         value: {default: false},
         tag: {default: 'div'},
@@ -59,9 +60,10 @@
             props: Object.assign({}, this.$props),
         };
     },
-};</script>
+};
+</script>
 
-<style>
+<style module>
 .ui-modal {
     position: fixed;
     top: 0px;

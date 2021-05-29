@@ -32,7 +32,7 @@
     </div>
 </div></template>
 
-<style>
+<style module>
 .ui-pagination-btn {width:30px; height:30px; margin:0px 2px; padding:4px 0px 0px 0px; border-radius:50%;}
 .ui-pagination-btn-active {background:#ddd;}
 

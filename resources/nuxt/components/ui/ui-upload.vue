@@ -14,7 +14,7 @@
 </div></template>
 
 
-<style>
+<style module>
 .ui-upload {cursor:pointer;}
 </style>
 

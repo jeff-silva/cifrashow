@@ -9,10 +9,12 @@
     </div>
 </div></template>
 
-<script>export default {
+<script>
+export default {
     props: {
         label: {default: ''},
         help: {default: ''},
         error: {default: ''},
     },
-};</script>
+};
+</script>

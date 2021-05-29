@@ -97,7 +97,7 @@
 };</script>
 
 
-<style>
+<style module>
 .ui-input .input-group-text, .ui-input .input-group-btn {border-color:transparent; background:none;}
 .ui-input-label {position:absolute; top:0px; left:-1px; width:100%; height:100%; z-index:2; font-weight:normal!important; border-color:transparent; background:none; display:flex; align-items:center; transition: all 300ms ease;}
 .ui-input-full .ui-input-label {font-size:70%; height:20px;}

@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style>
+<style module>
 .ui-code .CodeMirror-cursor {height:16px!important;}
 .ui-code .CodeMirror-line, .ui-code .CodeMirror-line * {font:16px monospace!important; line-height:16px!important;}
 .ui-code .CodeMirror-code > * {}

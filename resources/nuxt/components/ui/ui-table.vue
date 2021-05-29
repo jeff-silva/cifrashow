@@ -65,7 +65,7 @@
 </div></template>
 
 
-<style>
+<style module>
 .ui-table * {transition: all 300ms ease;}
 .ui-table table tbody td {vertical-align:middle;}
 

@@ -4,7 +4,8 @@
     </div>
 </div></template>
 
-<script>export default {
+<script>
+export default {
     props: {
         value: {default: false},
     },
@@ -69,4 +70,5 @@
             props: Object.assign({}, this.$props),
         };
     },
-};</script>
+};
+</script>

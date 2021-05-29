@@ -10,7 +10,8 @@
     <slot :loading="loading" :error="responseErrorFields" :errorMessage="responseErrorMessage" :success="responseSuccess"></slot>
 </form></template>
 
-<script>export default {
+<script>
+export default {
     props: {
         value: {default: ()=>({})},
         method: {default: 'post'},
@@ -66,4 +67,5 @@
             props: Object.assign({}, this.$props),
         };
     },
-};</script>
+};
+</script>

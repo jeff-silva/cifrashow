@@ -1,9 +1,8 @@
 <template><div class="ui-html">
     <textarea ref="textarea"></textarea>
-    <!-- <pre>$data: {{ $data }}</pre> -->
 </div></template>
 
-<style>
+<style module>
 .ui-html .ck-editor {border:solid 1px #eee;}
 .ui-html .ck-toolbar, .ui-html .ck-editor__editable {border:none!important; box-shadow:none!important;}
 </style>
